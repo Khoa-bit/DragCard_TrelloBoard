@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+$white-default: #f0f6ff;
+$gray-default: #6a818a;
+$gray-light: #dce2e4;
+$gray-dark: #3e4b51;
+$alert-primary: #ef255d;
+$alert-secondary: #fdecf1;
+$success-primary: #1ac687;
+$success-secondary: #e2fcf2;
+
+$body-font-family: Iter, sans-serif;
+$body-font-size: 1.6rem;
+$body-font-weight: 400;
+$body-line-height: 1.5;
+$body-color: #000810;
+$body-bg: #f5f6fa;
+
+/* Base reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* box-sizing and font sizing */
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+
+  /* Set font size for easy rem calculations
+  * default document font size = 16px, 1rem = 16px, 100% = 16px
+  * (100% / 16px) * 10px = 62.5%, 1rem = 10px, 62.5% = 10px
+  */
+  font-size: 62.5%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* 1200px / 16px = 75em */
+@media (max-width: 75em) {
+  html {
+    font-size: 60%;
+  }
+}
+
+/* 980px / 16px = 61.25em */
+@media (max-width: 61.25em) {
+  html {
+    font-size: 58%;
+  }
+}
+
+/* 460px / 16px = 28.75em */
+@media (max-width: 28.75em) {
+  html {
+    font-size: 55%;
+  }
+}
+
+/* Base styles */
+body {
+  font-family: $body-font-family;
+  font-size: $body-font-size; /* 16px */
+  font-weight: $body-font-weight;
+  line-height: $body-line-height;
+  color: $body-color;
+  background-color: $body-bg;
+}
+
+hr {
+  margin: 1.6rem 0;
+  color: inherit;
+  background-color: currentColor;
+  border: 0;
+  opacity: 0.25;
+}
+
+hr:not([size]) {
+  height: 1px;
+}
+
+h1,
+h2 {
+  font-weight: 700;
+  text-align: center;
+  /* font-family */
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin-block: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+h1,
+.h1 {
+  font-size: calc(2.2rem + 1.5vw);
+}
+@media (min-width: 1200px) {
+  h1,
+  .h1 {
+    font-size: 4rem;
+  }
+}
+
+h2,
+.h2 {
+  font-size: calc(2.12rem + 0.9vw);
+}
+@media (min-width: 1200px) {
+  h2,
+  .h2 {
+    font-size: 3.2rem;
+  }
+}
+
+h3,
+.h3 {
+  font-size: calc(2.08rem + 0.6vw);
+}
+@media (min-width: 1200px) {
+  h3,
+  .h3 {
+    font-size: 2.8rem;
+  }
+}
+
+h4,
+.h4 {
+  font-size: calc(2.04rem + 0.3vw);
+}
+@media (min-width: 1200px) {
+  h4,
+  .h4 {
+    font-size: 2.4rem;
+  }
+}
+
+h5,
+.h5 {
+  font-size: 3.2rem;
+}
+
+h6,
+.h6 {
+  font-size: 1.6rem;
+}
+
+p {
+  margin-block-start: 0;
+  margin-block-end: 1.6rem;
+}
+
+ol,
+ul {
+  padding-inline-start: 3.2rem;
+}
+
+ol,
+ul {
+  margin-block-start: 0;
+  margin-block-end: 1.6rem;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-block-end: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #3a57e8;
+}
+
+a:hover {
+  color: #2e46ba;
+}
+
+img {
+  display: block;
+  width: 100%;
+}

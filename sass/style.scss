@@ -1,0 +1,46 @@
+@import "base";
+
+div.board {
+  display: flex;
+  align-items: flex-start;
+  height: 100vh;
+  background-color: $success-secondary;
+
+  // &.mouseDrag a.card:hover {
+  //   border-block-end: 2px solid cornflowerblue;
+  // }
+}
+
+article.list-cards {
+  display: flex;
+  flex-direction: column;
+  background-color: $gray-light;
+  padding-inline: 1rem;
+
+  &:not(:last-child) {
+    margin-inline-end: 1rem;
+  }
+
+  div.droppable {
+    padding-block: 0.5rem;
+    
+    $indicator: 10px solid aquamarine;
+
+    &.top-indicator {
+      border-top: $indicator;
+    }
+
+    &.bottom-indicator {
+      border-bottom: $indicator;
+    }
+  }
+
+  div.card a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10rem;
+    padding-block: 1rem;
+    background-color: $white-default;
+  }
+}
