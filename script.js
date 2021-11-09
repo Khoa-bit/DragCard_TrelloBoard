@@ -2,7 +2,8 @@
 
 let board = document.querySelector("div.board");
 
-board.onmousedown = function (event) {
+board.ondragstart = function (event) {
+  event.preventDefault();
   let card = event.target.closest(".card");
 
   if (!card || !board.contains(card)) return;
@@ -14,9 +15,7 @@ board.onmousedown = function (event) {
   card.style.position = "absolute";
   card.style.opacity = "0.5";
 
-  card.ondragstart = function () {
-    return false;
-  };
+  card.classList.add("dragging");
 
   // board.classList.toggle("mouseDrag");
 
@@ -100,6 +99,7 @@ board.onmousedown = function (event) {
     card.style.opacity = null;
     card.style.left = null;
     card.style.top = null;
+    setTimeout(() => card.classList.remove("dragging"), 500);
     // board.classList.toggle("mouseDrag");
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUp);
@@ -107,4 +107,20 @@ board.onmousedown = function (event) {
 
   document.addEventListener("mousemove", onMouseMove);
   document.addEventListener("mouseup", onMouseUp);
+};
+
+board.onclick = function (event) {
+  // Prevent click event after dragend event.
+  let draggingElement = event.target.closest(".dragging");
+  if (draggingElement) {
+    draggingElement.classList.remove("dragging");
+    return;
+  }
+
+  if (event.target.nodeName != "A") return;
+
+  let href = event.target.innerHTML;
+  alert(href); // ...can be loading from the server, UI generation etc
+
+  return false; // prevent browser action (don't go to the URL)
 };
