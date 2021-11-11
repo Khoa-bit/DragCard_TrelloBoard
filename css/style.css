@@ -186,34 +186,52 @@ div.board {
   display: flex;
   align-items: flex-start;
   height: 100vh;
-  background-color: #e2fcf2;
+  padding: 2rem;
+  background-color: #0079bf;
 }
 
 article.list-cards {
   display: flex;
   flex-direction: column;
-  background-color: #dce2e4;
+  max-height: 95%;
+  width: 27rem;
+  overflow-y: auto;
+  background-color: #ebecf0;
   padding-inline: 1rem;
+  border-radius: 6px;
 }
 article.list-cards:not(:last-child) {
   margin-inline-end: 1rem;
 }
-article.list-cards div.droppable {
+article.list-cards h2.list-header {
+  position: sticky;
+  top: 0;
+  padding-block: 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  background-color: #ebecf0;
+}
+article.list-cards .droppable {
   padding-block: 0.5rem;
 }
-article.list-cards div.droppable.top-indicator {
-  border-top: 10px solid aquamarine;
+article.list-cards .droppable.top-indicator {
+  border-top: 10px solid #8cd5ff;
 }
-article.list-cards div.droppable.bottom-indicator {
-  border-bottom: 10px solid aquamarine;
+article.list-cards .droppable.bottom-indicator {
+  border-bottom: 10px solid #8cd5ff;
+}
+article.list-cards .droppable:first-child {
+  padding-block-start: 1rem;
+}
+article.list-cards .droppable:last-child {
+  padding-block-end: 1rem;
 }
 article.list-cards div.card a {
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 10rem;
-  padding-block: 1rem;
+  padding: 1rem;
   background-color: #f0f6ff;
+  border-radius: 6px;
 }
 
 /*# sourceMappingURL=style.css.map */

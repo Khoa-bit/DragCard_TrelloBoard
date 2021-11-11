@@ -1,10 +1,15 @@
+@use "sass:math";
 @import "base";
+
+$primary: #0079bf;
+$gray: #ebecf0;
 
 div.board {
   display: flex;
   align-items: flex-start;
   height: 100vh;
-  background-color: $success-secondary;
+  padding: 2rem;
+  background-color: $primary;
 
   // &.mouseDrag a.card:hover {
   //   border-block-end: 2px solid cornflowerblue;
@@ -14,17 +19,33 @@ div.board {
 article.list-cards {
   display: flex;
   flex-direction: column;
-  background-color: $gray-light;
+  max-height: 95%;
+  width: 27rem;
+  overflow-y: auto;
+
+  background-color: $gray;
   padding-inline: 1rem;
+  border-radius: 6px;
 
   &:not(:last-child) {
     margin-inline-end: 1rem;
   }
 
-  div.droppable {
-    padding-block: 0.5rem;
-    
-    $indicator: 10px solid aquamarine;
+  h2.list-header {
+    position: sticky;
+    top: 0;
+    padding-block: 1rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    background-color: $gray;
+  }
+
+  .droppable {
+    $paddingBlock: 1rem;
+
+    padding-block: math.div($paddingBlock, 2);
+
+    $indicator: 10px solid lighten($primary, 40%);
 
     &.top-indicator {
       border-top: $indicator;
@@ -33,14 +54,21 @@ article.list-cards {
     &.bottom-indicator {
       border-bottom: $indicator;
     }
+
+    &:first-child {
+      padding-block-start: $paddingBlock;
+    }
+
+    &:last-child {
+      padding-block-end: $paddingBlock;
+    }
   }
 
   div.card a {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 10rem;
-    padding-block: 1rem;
+    padding: 1rem;
     background-color: $white-default;
+    border-radius: 6px;
   }
 }

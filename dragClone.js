@@ -1,7 +1,6 @@
 "use strict";
 
 let board = document.querySelector("div.board");
-let dragged;
 
 board.ondragstart = function (event) {
   let card = event.target.closest(".card");
@@ -9,46 +8,96 @@ board.ondragstart = function (event) {
   if (!card || !board.contains(card)) return;
 
   let currentDroppable = null;
-  
-  function onDragEnter(event) {
-    // highlight potential drop target when the draggable element enters it
-    if (!event.target) return;
+  let isBelow = null;
+
+  function onDragOver(event) {
+    /* events fired on the drop targets */
+    // prevent default to allow drop
+    event.preventDefault();
+
+    if (!event.target || !board.contains(event.target)) return;
 
     let droppableBelow = event.target.closest(".droppable");
-    console.log("Enter");
-    console.log(droppableBelow);
 
-    currentDroppable = droppableBelow;
-    if (!droppableBelow) return;
-    droppableBelow.style.backgroundColor = "purple";
+    if (currentDroppable != droppableBelow) {
+      // we're flying in or out...
+      // note: both values can be null
+      //   currentDroppable=null if we were not over a droppable before this event (e.g over an empty space)
+      //   droppableBelow=null if we're not over a droppable now, during this event
+
+      if (currentDroppable) {
+        // the logic to process "flying out" of the droppable (remove highlight)
+        currentDroppable.classList.remove("top-indicator", "bottom-indicator");
+        isBelow = null;
+      }
+      currentDroppable = droppableBelow;
+      if (currentDroppable) {
+        // the logic to process "flying in" of the droppable
+        updateIndicator(event);
+      }
+    } else if (currentDroppable != null) {
+      // the logic to process "moving in" of the droppable
+      updateIndicator(event);
+    }
   }
 
-  function onDragLeave(event) {
-    // reset background of potential drop target when the draggable element leaves it
-    if (!event.target) return;
+  function updateIndicator(event) {
+    let dropModifier = 1;
+    if (currentDroppable.classList.contains("drop-below")) {
+      dropModifier = 0;
+    } else if (currentDroppable.classList.contains("drop-above")) {
+      dropModifier = 2;
+    }
 
-    let droppableBelow = event.target.closest(".droppable");
-    console.log("Leave");
-    console.log(droppableBelow);
+    let currentDroppableRect = currentDroppable.getBoundingClientRect();
+    let relativeY = event.clientY - currentDroppableRect.top;
 
-    if (!droppableBelow) return;
-    if (currentDroppable == droppableBelow) return;
-    droppableBelow.style.backgroundColor = null;
+    if (relativeY >= (currentDroppableRect.height / 2) * dropModifier) {
+      if (isBelow == null || isBelow == false) {
+        isBelow = true;
+        currentDroppable.classList.remove("top-indicator");
+        currentDroppable.classList.add("bottom-indicator");
+      }
+    } else {
+      if (isBelow == null || isBelow == true) {
+        isBelow = false;
+        currentDroppable.classList.remove("bottom-indicator");
+        currentDroppable.classList.add("top-indicator");
+      }
+    }
   }
 
-  function onDragEnd(event) {
-    console.log("DragEnd");
-    console.log(event.target);
-    document.removeEventListener("dragenter", onDragEnter);
+  function onDrop(event) {
+    // prevent default action (open as link for some elements)
+    event.preventDefault();
+    // move dragged elem to the selected drop target
 
-    document.removeEventListener("dragleave", onDragLeave);
-  
-    document.removeEventListener("dragend", onDragEnd);
+    if (currentDroppable) {
+      currentDroppable.classList.remove("top-indicator", "bottom-indicator");
+      if (card == currentDroppable) {
+        // Skip drop card on itself
+      } else if (isBelow) {
+        currentDroppable.after(card);
+      } else {
+        currentDroppable.before(card);
+      }
+      currentDroppable = null;
+      isBelow = null;
+    }
+
+    document.removeEventListener("dragover", onDragOver);
+    document.removeEventListener("drop", onDrop);
   }
 
-  document.addEventListener("dragenter", onDragEnter);
+  document.addEventListener("dragover", onDragOver);
+  document.addEventListener("drop", onDrop);
+};
 
-  document.addEventListener("dragleave", onDragLeave);
+board.onclick = function (event) {
+  if (event.target.nodeName != "A") return;
 
-  document.addEventListener("dragend", onDragEnd);
+  let href = event.target.innerHTML;
+  alert(href); // ...can be loading from the server, UI generation etc
+
+  return false; // prevent browser action (don't go to the URL)
 };
